@@ -8,8 +8,6 @@ const ERC20Abi = [
     "function balanceOf(address) view returns (uint)",
 ]
 
-const REACT_APP_PROVIDER_URL = "https://arb-mainnet.g.alchemy.com/v2/R95-s5WE2dev_YTJ327NkIKnwKOQdJ9l";
-
 const useVaultInfo = (deployerAddress, network) => {
 
     const [vaultData, setVaultData] = useState({});
@@ -19,12 +17,11 @@ const useVaultInfo = (deployerAddress, network) => {
     const [spotPrice, setSpotPrice] = useState(0);
     const [capacity, setCapacity] = useState({});
     
-    console.log(`Network is ${network} provider URL is ${ REACT_APP_PROVIDER_URL}`)
-    // Setup Provider
+     // Setup Provider
     const provider = useMemo(() => new JsonRpcProvider(
-      REACT_APP_PROVIDER_URL 
+      process.env.REACT_APP_PROVIDER_URL 
     ), 
-      [REACT_APP_PROVIDER_URL]
+      [process.env.REACT_APP_PROVIDER_URL]
     ); 
     
     console.log(provider)
@@ -44,7 +41,7 @@ const useVaultInfo = (deployerAddress, network) => {
                     VaultAbi, 
                     provider
                 );
-                console.log(VaultContract)
+                
                 let data = {};
                 
                 const [

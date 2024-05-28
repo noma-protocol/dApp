@@ -7,8 +7,6 @@ import addressData from './addresses.json';
 // }
 
 export async function getAddress(contractName, network) {
-  console.log(`Getting addresses for ${network}`)
-  console.log( addressData[network][contractName])
   return addressData[network][contractName];
 }
 

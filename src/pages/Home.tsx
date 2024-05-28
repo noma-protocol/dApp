@@ -51,12 +51,6 @@ const HomePage: React.FC = () => {
     chainIdToNetwork(4216) || "arbitrum"
   );
 
-  console.log(data)
-
-  const test = tickToPrice(data["Discovery"]?.upperTick);
-
-  console.log(`Test: ${test}`)
-
   return (
     <>
       {
