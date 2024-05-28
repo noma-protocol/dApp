@@ -24,6 +24,10 @@ function App() {
     [chainIdToNetwork(chainId)]
   ); 
 
+
+  console.log(process.env.REACT_APP_PROVIDER_URL);
+  console.log(process.env.CI);
+
   const projectId = "1607c5f300e1191999e3033443961435";
 
   const metadata = {
