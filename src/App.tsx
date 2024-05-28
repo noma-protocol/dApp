@@ -7,7 +7,7 @@ import { LanguageProvider } from "./core/LanguageProvider";
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 import { useMemo, useState } from "react";
 import { WagmiConfig } from "wagmi";
-import { bsc, localhost } from "viem/chains";
+import { bsc, arbitrum, localhost } from "viem/chains";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { switchNetwork, watchNetwork } from "wagmi/actions";
@@ -19,7 +19,7 @@ function App() {
 
   // Setup Provider
   const localProvider = useMemo(() => new JsonRpcProvider(
-    chainIdToNetwork(chainId) == "ganache" || chainId == null ? "http://localhost:8545" : process.env.REACT_APP_PROVIDER_URL 
+    /*chainIdToNetwork(chainId) == "ganache" || chainId == null ? "http://localhost:8545" :*/ process.env.REACT_APP_PROVIDER_URL 
   ), 
     [chainIdToNetwork(chainId)]
   ); 
@@ -33,7 +33,7 @@ function App() {
     icons: ["https://avatars.githubusercontent.com/u/37784886"],
   };
 
-  const chains = [bsc, localhost];
+  const chains = [bsc, arbitrum, localhost];
   const wagmiConfig = defaultWagmiConfig({
     chains,
     projectId,
@@ -48,9 +48,9 @@ function App() {
     //     chainId: 56,
     //   });
     // }
-    if (network.chain?.name == "bsc") {
+    if (network.chain?.name == "arbitrum") {
       await switchNetwork({
-        chainId: 1337,
+        chainId: 42161,
       });
     }
     console.log(`Network is ${network.chain?.name}`)

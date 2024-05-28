@@ -1,5 +1,6 @@
 {
-  "ganache": {
-    "Vault": "0xBb466BA3Ece924AEF96DE82B257a94c236095f85"
+  "ganache": {},
+  "arbitrum": {
+    "Vault": "0xdc5941fb96307dbD4679A5dFE3c612aBB188a61E"
   }
 }

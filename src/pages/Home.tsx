@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
     capacity
   } = useVaultInfo(
     process.env.REACT_APP_DEPLOYER_ADDRESS, 
-    chainIdToNetwork(1337) || "ganache"
+    chainIdToNetwork(4216) || "arbitrum"
   );
 
   console.log(data)
