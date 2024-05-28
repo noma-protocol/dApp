@@ -3,6 +3,7 @@ import { getAddress } from "../utils.tsx";
 import { ethers, JsonRpcProvider } from "ethers";
 
 const {formatEther} = ethers;
+
 const ERC20Abi = [
     "function totalSupply() view returns (uint)", 
     "function balanceOf(address) view returns (uint)",
@@ -24,8 +25,7 @@ const useVaultInfo = (deployerAddress, network) => {
       [process.env.REACT_APP_PROVIDER_URL]
     ); 
     
-    console.log(provider)
-    useEffect(() => {
+     useEffect(() => {
 
         const fetchVaultInfo = async () => {
             try {

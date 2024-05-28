@@ -19,15 +19,11 @@ function App() {
 
   // Setup Provider
   const localProvider = useMemo(() => new JsonRpcProvider(
-    /*chainIdToNetwork(chainId) == "ganache" || chainId == null ? "http://localhost:8545" :*/ process.env.REACT_APP_PROVIDER_URL 
+     process.env.REACT_APP_PROVIDER_URL 
   ), 
     [chainIdToNetwork(chainId)]
   ); 
-
-
-  console.log(process.env.REACT_APP_PROVIDER_URL);
-  console.log(process.env.CI);
-
+ 
   const projectId = "1607c5f300e1191999e3033443961435";
 
   const metadata = {
