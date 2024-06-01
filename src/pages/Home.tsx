@@ -35,8 +35,9 @@ import Chart from '../components/Chart'; // The path to your chart component
 
 import useVaultInfo from '../hooks/useVaultInfo';
 import {RemoveScrollBar} from 'react-remove-scroll-bar';
-
+import SlideControls  from "../components/SlideControls.tsx";
 const HomePage: React.FC = () => {
+
   const ctx = useContext<LanguageContextType>(LanguageContext);
 
   const { 
@@ -51,18 +52,38 @@ const HomePage: React.FC = () => {
     chainIdToNetwork(4216) || "arbitrum"
   );
 
+  const { address, isConnected } = useAccount();
+
   return (
-    <>
+    <> 
       {
         typeof data["Floor"] != "undefined" &&
         typeof data["Anchor"] != "undefined" ?
-  
-      <Box as="section" className="main-section">
+       
+       <Box as="section" className="main-section">
         <Heading size="large" style={{color:"ivory"}} ml={isMobile ? "3vh" : "250px"} mb={30}>Liquidity</Heading>
+        <SimpleGrid maxWidth={"60%"} ml="20%" columns={8}  >
+         {isConnected ? <SlideControls isConnected /> : <></>}
+        </SimpleGrid>
+        <SimpleGrid maxWidth={"30%"} ml="50%" mt={-50}  columns={2} rows={3}  >     
+          <Box w="auto"  textAlign="right">
+            Spot Price
+          </Box>
+          <Box w="auto" textAlign="right">
+            Liquidity Ratio
+          </Box>
+          <Box w="auto"  textAlign="right">
+            <label>{commify(formatEther(spotPrice))}</label><Text mt={-2} fontSize={"small"}>(WETH/tAMPH)</Text>
+          </Box>
+          <Box w="auto" textAlign="right">
+            <label>{commify(formatEther(liquidityRatio))}</label>
+          </Box>
+        </SimpleGrid>      
         <center>
+          <br />
           <Chart positions={data} />
           {!isMobile ? 
-          <Table style={{marginTop:"50px"}}  variant="simple" maxWidth={"80vh"} >
+          <Table style={{marginTop:"50px"}}  variant="simple" maxWidth={"80vh"}>
             <Thead>
               <Tr>
                 <Th ></Th>
@@ -115,7 +136,7 @@ const HomePage: React.FC = () => {
               </Tr>          
             </Tbody>
           </Table> :
-          <>Responsive table</>}
+          <>--</>}
         </center>
       </Box> : <></>
       }
