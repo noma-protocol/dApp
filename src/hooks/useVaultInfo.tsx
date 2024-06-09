@@ -17,10 +17,12 @@ const useVaultInfo = (deployerAddress, network) => {
     const [circulatingSupply, setCirculatingSupply] = useState(0);
     const [spotPrice, setSpotPrice] = useState(0);
     const [capacity, setCapacity] = useState({});
-    
+    const [feesToken0, setFeesToken0] = useState(0);
+    const [feesToken1, setFeesToken1] = useState(0);
+
      // Setup Provider
     const provider = useMemo(() => new JsonRpcProvider(
-      process.env.REACT_APP_PROVIDER_URL 
+     network == "ganache" ? "http://localhost:8545" : process.env.REACT_APP_PROVIDER_URL 
     ), 
       [process.env.REACT_APP_PROVIDER_URL]
     ); 
@@ -41,7 +43,7 @@ const useVaultInfo = (deployerAddress, network) => {
                     VaultAbi, 
                     provider
                 );
-                
+                                            
                 let data = {};
                 
                 const [
@@ -123,6 +125,13 @@ const useVaultInfo = (deployerAddress, network) => {
                 
                 setVaultData(data);
                 setLiquidityRatio(liquidityRatio);
+
+                const [feesToken0, feesToken1] = await VaultContract.getAccumulatedFees();
+                console.log(feesToken0, feesToken1)
+                
+                setFeesToken0(feesToken0);
+                setFeesToken1(feesToken1);
+
                     
             } catch (error) {
                 console.error(`Failed to fetch pools: ${error}`);
