@@ -148,7 +148,9 @@ const useVaultInfo = (deployerAddress, network) => {
 
     }, [deployerAddress, provider, network]);  // Added network to the dependency array
 
-    return { data: vaultData, liquidityRatio, underlyingBalances, circulatingSupply, spotPrice, capacity};
+    const accumulatedFees = [feesToken0, feesToken1];
+
+    return { data: vaultData, liquidityRatio, underlyingBalances, circulatingSupply, spotPrice, capacity, accumulatedFees};
 }
 
 export default useVaultInfo;
