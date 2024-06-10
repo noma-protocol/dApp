@@ -46,13 +46,17 @@ const HomePage: React.FC = () => {
     underlyingBalances, 
     circulatingSupply,
     spotPrice,
-    capacity
+    capacity,
+    accumulatedFees
   } = useVaultInfo(
     process.env.REACT_APP_DEPLOYER_ADDRESS, 
-    chainIdToNetwork(4216) || "arbitrum"
+    // chainIdToNetwork(4216) || "arbitrum"
+    chainIdToNetwork(1337) || "ganache"
   );
 
   const { address, isConnected } = useAccount();
+
+  console.log(accumulatedFees)
 
   return (
     <> 
@@ -92,6 +96,7 @@ const HomePage: React.FC = () => {
                 <Th isNumeric>Discovery</Th>
                 <Th isNumeric>Unused</Th>
                 <Th isNumeric>Total</Th>
+                <Th isNumeric>Fees</Th>
               </Tr>
             </Thead>
             <Tbody style={{color:"ivory"}}> 
@@ -102,6 +107,7 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{commify(formatEther(data["Discovery"]?.amount1))}</Td>
                 <Td >{commify(formatEther(underlyingBalances.token1))}</Td>
                 <Td isNumeric>{commify(formatEther(data["Floor"]?.amount1 + (data["Anchor"]?.amount1 + (data["Discovery"]?.amount1) + (underlyingBalances?.token1))))}</Td>
+                <Td isNumeric>{commify(formatEther(accumulatedFees[1]))}</Td>
               </Tr>
               <Tr>
                 <Td>Reserves (NOMA)</Td>
@@ -111,6 +117,7 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{commify(formatEther(data["Discovery"]?.amount0))}</Td>
                 <Td >{commify(formatEther(underlyingBalances?.token0))}</Td>
                 <Td isNumeric>{commify(formatEther((data["Floor"]?.amount0) + (data["Anchor"]?.amount0) + (data["Discovery"]?.amount0) + (underlyingBalances?.token0)))}</Td>
+                <Td isNumeric>{commify(formatEther(accumulatedFees[0]))}</Td>
               </Tr>
               <Tr>
                 <Td>Capacity (NOMA)</Td>
@@ -119,6 +126,7 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{"n/a"}</Td>
                 <Td >{"n/a"}</Td>
                 <Td isNumeric>{"n/a"}</Td>
+                <Td></Td>
               </Tr>          
               <Tr>
                 <Td>Tick Lower</Td>
@@ -126,12 +134,14 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{commify(tickToPrice(data["Anchor"]?.lowerTick))}<Text color="gray" fontSize="13px">({Number(data["Anchor"]?.lowerTick)})</Text></Td>
                 <Td isNumeric>{commify(tickToPrice(data["Discovery"]?.lowerTick))}<Text color="gray" fontSize="13px">({Number(data["Discovery"]?.lowerTick)})</Text></Td>
                 <Td ></Td>
+                <Td ></Td>
               </Tr>
               <Tr>
                 <Td>Tick Upper</Td>
                 <Td isNumeric>{commify(tickToPrice(data["Floor"]?.upperTick))}<Text color="gray" fontSize="13px">({Number(data["Floor"]?.upperTick)})</Text></Td>
                 <Td isNumeric>{commify(tickToPrice(data["Anchor"]?.upperTick))}<Text color="gray" fontSize="13px">({Number(data["Anchor"]?.upperTick)})</Text></Td>
                 <Td isNumeric>{commify(tickToPrice(data["Discovery"]?.upperTick))}<Text color="gray" fontSize="13px">({Number(data["Discovery"]?.upperTick)})</Text></Td>
+                <Td ></Td>
                 <Td ></Td>
               </Tr>          
             </Tbody>
