@@ -25,7 +25,7 @@ const Header: React.FC = () => {
   const { open } = useWeb3Modal();
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork()
-
+  
   return (
     <header id="header">
       <nav className="navbar navbar-expand navbar-fixed-top" >
@@ -42,11 +42,15 @@ const Header: React.FC = () => {
         {/* Remove mx-auto class and add justify-content-start to align items to the left */}
         <ul className="navbar-nav items justify-content-start " >
           <li className="nav-item">
-            <Link className="nav-link" to="/">
-              {!ctx.isSpanishCountry ? "What's this?" : "Que es esto?"}
+            <Link className="nav-link" to="/swap">
+              {!ctx.isSpanishCountry ? "Swap" : "Swap"}
             </Link>
           </li>
-
+          <li className="nav-item">
+            <Link className="nav-link" to="/stake">
+              {!ctx.isSpanishCountry ? "Stake" : "Stake"}
+            </Link>
+          </li>
           <li className="nav-item">
             <Link className="nav-link" to="/">
               {!ctx.isSpanishCountry ? "Docs" : "Docs"}

@@ -19,7 +19,7 @@ function App() {
 
   // Setup Provider
   const localProvider = useMemo(() => new JsonRpcProvider(
-     process.env.REACT_APP_PROVIDER_URL 
+     process.env.REACT_APP_PROVIDER_URL || "http://localhost:8545"
   ), 
     [chainIdToNetwork(chainId)]
   ); 
@@ -48,11 +48,16 @@ function App() {
     //     chainId: 56,
     //   });
     // }
+    // if (network.chain?.name == "arbitrum") {
+    //   await switchNetwork({
+    //     chainId: 42161,
+    //   });
+    // }
     if (network.chain?.name == "arbitrum") {
       await switchNetwork({
-        chainId: 42161,
+        chainId: 1337,
       });
-    }
+    }    
     console.log(`Network is ${network.chain?.name}`)
   });
 

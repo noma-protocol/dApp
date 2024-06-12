@@ -127,12 +127,10 @@ const useVaultInfo = (deployerAddress, network) => {
                 setLiquidityRatio(liquidityRatio);
 
                 const [feesToken0, feesToken1] = await VaultContract.getAccumulatedFees();
-                console.log(feesToken0, feesToken1)
                 
                 setFeesToken0(feesToken0);
                 setFeesToken1(feesToken1);
 
-                    
             } catch (error) {
                 console.error(`Failed to fetch pools: ${error}`);
             }

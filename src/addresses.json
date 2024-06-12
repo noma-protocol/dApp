@@ -1,6 +1,8 @@
 {
-  "ganache": {},
-  "arbitrum": {
-    "Vault": "0xdc5941fb96307dbD4679A5dFE3c612aBB188a61E"
+  "ganache": {
+    "Noma": "0x71928Dd90031aB5Bb11d4765361c30958ecd4143",
+    "StakingRewards": "0x9C40D2aa665C5c5df077d39F66bd6f8477E43fCa",
+    "Vault": "0x7030dF55d8C080C5A0BF0f0ee3e8317e6561EB24",
+    "Diamond": "0x7030dF55d8C080C5A0BF0f0ee3e8317e6561EB24"
   }
 }

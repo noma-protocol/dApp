@@ -34,11 +34,14 @@ import { chainIdToNetwork, commify, tickToPrice} from "../utils.tsx";
 import Chart from '../components/Chart'; // The path to your chart component
 
 import useVaultInfo from '../hooks/useVaultInfo';
+import useStakingRewards from '../hooks/useStakingRewards';
+
 import {RemoveScrollBar} from 'react-remove-scroll-bar';
 import SlideControls  from "../components/SlideControls.tsx";
 const HomePage: React.FC = () => {
 
   const ctx = useContext<LanguageContextType>(LanguageContext);
+  const { address, isConnected } = useAccount();
 
   const { 
     data, 
@@ -54,10 +57,15 @@ const HomePage: React.FC = () => {
     chainIdToNetwork(1337) || "ganache"
   );
 
-  const { address, isConnected } = useAccount();
+  // console.log(accumulatedFees)
 
-  console.log(accumulatedFees)
-
+  const {
+    stakingData
+  } = useStakingRewards(
+    address,
+    chainIdToNetwork(1337) || "ganache"
+  );
+  
   return (
     <> 
       {
@@ -66,22 +74,30 @@ const HomePage: React.FC = () => {
        
        <Box as="section" className="main-section">
         <Heading size="large" style={{color:"ivory"}} ml={isMobile ? "3vh" : "250px"} mb={30}>Liquidity</Heading>
-        <SimpleGrid maxWidth={"60%"} ml="20%" columns={8}  >
+        <SimpleGrid maxWidth={"60%"} ml="20%" columns={8} >
          {isConnected ? <SlideControls isConnected /> : <></>}
         </SimpleGrid>
-        <SimpleGrid maxWidth={"30%"} ml="50%" mt={-50}  columns={2} rows={3}  >     
+        <SimpleGrid maxWidth={"20%"} ml="60%" mt={-50}  columns={2} rows={3}  >     
           <Box w="auto"  textAlign="right">
-            Spot Price
+            Circulating
           </Box>
           <Box w="auto" textAlign="right">
             Liquidity Ratio
           </Box>
           <Box w="auto"  textAlign="right">
-            <label>{commify(formatEther(spotPrice))}</label><Text mt={-2} fontSize={"small"}>(WETH/tAMPH)</Text>
+            
+            <label>{commify(formatEther(circulatingSupply))}</label><Text mt={-2} fontSize={"small"}>(tAMPH)</Text>
           </Box>
           <Box w="auto" textAlign="right">
             <label>{commify(formatEther(liquidityRatio))}</label>
           </Box>
+          <Box w="auto" textAlign="right"  mt={10}>
+            Spot
+            <Box w="auto" textAlign="right">
+            <label>{commify(formatEther(spotPrice))}</label><Text mt={-2} fontSize={"small"}>(WETH/tAMPH)</Text>
+          </Box>
+          </Box>
+
         </SimpleGrid>      
         <center>
           <br />
@@ -94,7 +110,7 @@ const HomePage: React.FC = () => {
                 <Th isNumeric>Floor</Th>
                 <Th isNumeric>Anchor</Th>
                 <Th isNumeric>Discovery</Th>
-                <Th isNumeric>Unused</Th>
+                {/* <Th isNumeric>Unused</Th> */}
                 <Th isNumeric>Total</Th>
                 <Th isNumeric>Fees</Th>
               </Tr>
@@ -105,7 +121,7 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{commify(formatEther(data["Floor"]?.amount1))}</Td>
                 <Td isNumeric>{commify(formatEther(data["Anchor"]?.amount1))}</Td>
                 <Td isNumeric>{commify(formatEther(data["Discovery"]?.amount1))}</Td>
-                <Td >{commify(formatEther(underlyingBalances.token1))}</Td>
+                {/* <Td >{commify(formatEther(underlyingBalances.token1))}</Td> */}
                 <Td isNumeric>{commify(formatEther(data["Floor"]?.amount1 + (data["Anchor"]?.amount1 + (data["Discovery"]?.amount1) + (underlyingBalances?.token1))))}</Td>
                 <Td isNumeric>{commify(formatEther(accumulatedFees[1]))}</Td>
               </Tr>
@@ -115,7 +131,7 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{commify(formatEther(data["Floor"]?.amount0))}</Td>
                 <Td isNumeric>{commify(formatEther(data["Anchor"]?.amount0))}</Td>
                 <Td isNumeric>{commify(formatEther(data["Discovery"]?.amount0))}</Td>
-                <Td >{commify(formatEther(underlyingBalances?.token0))}</Td>
+                {/* <Td >{commify(formatEther(underlyingBalances?.token0))}</Td> */}
                 <Td isNumeric>{commify(formatEther((data["Floor"]?.amount0) + (data["Anchor"]?.amount0) + (data["Discovery"]?.amount0) + (underlyingBalances?.token0)))}</Td>
                 <Td isNumeric>{commify(formatEther(accumulatedFees[0]))}</Td>
               </Tr>
@@ -124,7 +140,7 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{commify(formatEther(capacity?.floor))}</Td>
                 <Td isNumeric>{commify(formatEther(capacity?.anchor))}</Td>
                 <Td isNumeric>{"n/a"}</Td>
-                <Td >{"n/a"}</Td>
+                {/* <Td >{"n/a"}</Td> */}
                 <Td isNumeric>{"n/a"}</Td>
                 <Td></Td>
               </Tr>          
@@ -133,7 +149,7 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{commify(tickToPrice(data["Floor"]?.lowerTick)[0])}<Text color="gray" fontSize="13px">({Number(data["Floor"]?.lowerTick)})</Text></Td>
                 <Td isNumeric>{commify(tickToPrice(data["Anchor"]?.lowerTick))}<Text color="gray" fontSize="13px">({Number(data["Anchor"]?.lowerTick)})</Text></Td>
                 <Td isNumeric>{commify(tickToPrice(data["Discovery"]?.lowerTick))}<Text color="gray" fontSize="13px">({Number(data["Discovery"]?.lowerTick)})</Text></Td>
-                <Td ></Td>
+                {/* <Td ></Td> */}
                 <Td ></Td>
               </Tr>
               <Tr>
@@ -141,7 +157,7 @@ const HomePage: React.FC = () => {
                 <Td isNumeric>{commify(tickToPrice(data["Floor"]?.upperTick))}<Text color="gray" fontSize="13px">({Number(data["Floor"]?.upperTick)})</Text></Td>
                 <Td isNumeric>{commify(tickToPrice(data["Anchor"]?.upperTick))}<Text color="gray" fontSize="13px">({Number(data["Anchor"]?.upperTick)})</Text></Td>
                 <Td isNumeric>{commify(tickToPrice(data["Discovery"]?.upperTick))}<Text color="gray" fontSize="13px">({Number(data["Discovery"]?.upperTick)})</Text></Td>
-                <Td ></Td>
+                {/* <Td ></Td> */}
                 <Td ></Td>
               </Tr>          
             </Tbody>
